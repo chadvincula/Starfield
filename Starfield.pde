@@ -1,5 +1,5 @@
 //your code here
-boolean clicking = false;
+int clicks = 0;
 int randomInt = (int)(Math.random()*2);
 Particle[] Test = new Particle[100];
 Hypnotize[] blackground = new Hypnotize[51];
@@ -21,7 +21,33 @@ void setup()
 void draw()
 {
 	//your code here
-	if(clicking == false)
+	if(clicks == 0)
+	{
+		fill(0, 0, 0, 10);
+		rectMode(CORNER);
+		rect(0, 0, width, height);
+		for(int i = 0; i < Test.length; i++)
+		{
+			Test[i].show();
+			Test[i].move();
+			Test[i].wrap();
+		}
+	}
+	else if(clicks == 1)
+	{
+		background(100);
+		for(int i = 0; i < blackground.length; i++)
+		{
+			if(i%2 == 0)
+			{
+				blackground[i].isBlack = false;
+			}
+			blackground[i].show();
+			blackground[i].grow();
+			blackground[i].revert();
+		}
+	}
+	else if(clicks == 2)
 	{
 		background(100);
 		for(int i = 0; i < blackground.length; i++)
@@ -41,7 +67,7 @@ void draw()
 			Test[i].wrap();
 		}
 	}
-	else
+	else if(clicks == 3)
 	{
 		background(0);
 		for(int j = 0; j < height+10; j += 10)
@@ -57,10 +83,9 @@ void draw()
 
 void mousePressed()
 {
-	if(clicking == false)
-		clicking = true;
-	else
-		clicking = false;
+	clicks++;
+	if(clicks > 3)
+		clicks = 0;
 }
 
 class NormalParticle implements Particle
@@ -70,7 +95,7 @@ class NormalParticle implements Particle
 	double myX, myY, myAngle, mySpeed;
 	NormalParticle()
 	{
-		myColor = color(0, 255, 0, 150);//color((int)(Math.random()*205)+50, (int)(Math.random()*205)+50, (int)(Math.random()*205)+50);
+		myColor = color(0, 255, 0, 150);
 		mySize = (int)(Math.random()*5)+7;
 		myX = 200;
 		myY = 200;
